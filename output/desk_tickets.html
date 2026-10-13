@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Customs — desk tickets plan</title>
+<style>
+  :root { --ink:#1b1b1b; --muted:#4a4a4a; --line:#c9ced6; --accent:#1d4f91; --bg:#ffffff; --soft:#f3f5f8; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:var(--bg); }
+  header, main { max-width:1100px; margin:0 auto; padding:0 16px; }
+  header h1 { font-size:1.4rem; margin:20px 0 4px; }
+  header p { margin:0 0 12px; color:var(--muted); font-size:.9rem; }
+  .tabs { display:flex; flex-wrap:wrap; gap:4px; border-bottom:2px solid var(--line); margin-bottom:16px; }
+  .tabs a { padding:8px 14px; color:var(--accent); text-decoration:none; border:2px solid transparent; border-bottom:none;
+            border-radius:6px 6px 0 0; font-weight:600; margin-bottom:-2px; }
+  .tabs a[aria-selected="true"] { color:var(--ink); background:var(--bg); border-color:var(--line); border-bottom:2px solid var(--bg); }
+  .tabs a:focus-visible, .panel:focus-visible { outline:3px solid #b35900; outline-offset:2px; }
+  .panel { padding-bottom:28px; }
+  .panel h2 { font-size:1.25rem; margin:8px 0 10px; }
+  .meta { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; margin:0 0 16px; }
+  .meta div { background:var(--soft); border:1px solid var(--line); border-radius:6px; padding:8px 10px; }
+  .meta dt { font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .meta dd { margin:0; font-weight:600; overflow-wrap:anywhere; }
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .col { border:1px solid var(--line); border-radius:8px; padding:12px 14px; }
+  .col h3 { margin:0 0 8px; font-size:1.05rem; }
+  .expected h3 { color:var(--accent); }
+  .part { border-top:1px solid var(--line); padding-top:8px; margin-top:8px; }
+  .part h4 { margin:0 0 4px; font-size:.9rem; }
+  .part p { margin:0; }
+  .verbatim { white-space:pre-wrap; overflow-wrap:anywhere; }
+  .placeholder { color:var(--muted); font-style:italic; }
+  /* With JavaScript, show one tab at a time; without it every panel stays visible, stacked. */
+  .js .panel[hidden] { display:none; }
+  .actual-list { margin: 0; padding-left: 20px; }
+  .run-note { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+  .actual .part p + p { margin-top: 4px; }
+  .ledger { border-collapse: collapse; width: 100%; max-width: 900px; margin: 8px 0; }
+  .ledger th, .ledger td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  .ledger .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ledger .total td { font-weight: 700; border-top: 2px solid var(--ink); }
+  .arith { font-weight: 600; }
+  @media (max-width:700px) {
+    .compare { grid-template-columns:1fr; }
+    .meta { grid-template-columns:1fr 1fr; }
+  }
+  @media print {
+    .tabs { display:none; }
+    .js .panel[hidden] { display:block; }
+    .panel { break-inside:avoid-page; border-top:2px solid var(--line); }
+    body { font-size:11pt; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Campus Customs — desk tickets plan</h1>
+  <p>Expectations written before any agent run. Ticket fields copied from data/campus_customs_new.db.</p>
+</header>
+<main>
+  <nav class="tabs" role="tablist" aria-label="Desk tickets">
+    <a role="tab" id="tab-t101" href="#t101" aria-controls="t101">Ticket 101</a>
+    <a role="tab" id="tab-t102" href="#t102" aria-controls="t102">Ticket 102</a>
+    <a role="tab" id="tab-t103" href="#t103" aria-controls="t103">Ticket 103</a>
+    <a role="tab" id="tab-cash" href="#cash" aria-controls="cash">Cash</a>
+    <a role="tab" id="tab-reflection" href="#reflection" aria-controls="reflection">Reflection</a>
+  </nav>
+  <section class="panel" id="t101" role="tabpanel" aria-labelledby="tab-t101" tabindex="0">
+    <h2>Ticket 101</h2>
+    <dl class="meta" id="t101-meta">
+      <div><dt>ID</dt><dd>101</dd></div>
+      <div><dt>Type</dt><dd>customer_order</dd></div>
+      <div><dt>Requester</dt><dd>Tauhid Zaman</dd></div>
+      <div><dt>Subject</dt><dd>Bulldog tee</dd></div>
+    </dl>
+    <div class="compare">
+    <section class="col expected" id="t101-expected" aria-labelledby="t101-expected-h">
+      <h3 id="t101-expected-h">Expected</h3>
+      <section class="part" id="t101-expected-first">
+        <h4>Who the Boss calls first and why</h4>
+        <p class="verbatim">Inventory. The customer&#x27;s problem is stock: the white Bulldog Tee in size S is out of stock, so Inventory should confirm the quantity, find which other sizes are available, and check the restock options and lead time.</p>
+      </section>
+      <section class="part" id="t101-expected-delegations">
+        <h4>Delegations I expect</h4>
+        <p class="verbatim">Boss asks Inventory for the stock position and alternative sizes. Boss then asks Customer Service to draft a reply offering a size that is in stock. I don&#x27;t expect Accounting, Facilities or any specialist-to-specialist delegation, because no money needs to move.</p>
+      </section>
+      <section class="part" id="t101-expected-tools">
+        <h4>MCP tools I expect to be used</h4>
+        <p class="verbatim">get_ticket, check_stock, list_vendors, save_customer_draft, resolve_ticket</p>
+      </section>
+    </section>
+    <section class="col actual" id="t101-actual" aria-labelledby="t101-actual-h">
+      <h3 id="t101-actual-h">Actual</h3>
+      <section class="part" id="t101-actual-first">
+        <h4>Who the Boss called first and why</h4>
+        <p>Inventory.</p><p>Why: not recorded. The audit trail stores the Boss's task text only as a length and hash, and the Boss's decision gives no reason for the order of its calls.</p><p class="run-note">Runs: 1 (cd5471ed4a62), 45 audit entries labelled problem-9-full-run.</p>
+      </section>
+      <section class="part" id="t101-actual-delegations">
+        <h4>Delegations made</h4>
+        <ul class="actual-list"><li>1. Boss &rarr; Inventory</li><li>2. Boss &rarr; Customer Service</li></ul>
+      </section>
+      <section class="part" id="t101-actual-tools">
+        <h4>MCP tools used</h4>
+        <p>get_ticket, check_stock, list_vendors, get_today, get_vendor_open_invoices, save_customer_draft, resolve_ticket</p>
+      </section>
+      <section class="part" id="t101-actual-compare">
+        <h4>Compared with Expected (computed set differences)</h4>
+        <p>Tools expected but not used:</p><p>none</p>
+        <p>Tools used but not expected:</p><ul class="actual-list"><li>get_today</li><li>get_vendor_open_invoices</li></ul>
+        <p>Hand-offs expected but not made:</p><p>none</p>
+        <p>Hand-offs made but not expected:</p><p>none</p>
+        <p class="run-note">Expected hand-offs as read from your Expected text: &ldquo;Boss asks Inventory&rdquo; = Boss &rarr; Inventory; &ldquo;Boss then asks Customer Service&rdquo; = Boss &rarr; Customer Service.</p>
+      </section>
+    </section>
+    </div>
+  </section>
+  <section class="panel" id="t102" role="tabpanel" aria-labelledby="tab-t102" tabindex="0">
+    <h2>Ticket 102</h2>
+    <dl class="meta" id="t102-meta">
+      <div><dt>ID</dt><dd>102</dd></div>
+      <div><dt>Type</dt><dd>rent_notice</dd></div>
+      <div><dt>Requester</dt><dd>Elm City Properties</dd></div>
+      <div><dt>Subject</dt><dd>Rent due</dd></div>
+    </dl>
+    <div class="compare">
+    <section class="col expected" id="t102-expected" aria-labelledby="t102-expected-h">
+      <h3 id="t102-expected-h">Expected</h3>
+      <section class="part" id="t102-expected-first">
+        <h4>Who the Boss calls first and why</h4>
+        <p class="verbatim">Facilities. This is a rent notice about the shop lease, and Facilities owns the lease, the rent amount and the due date.</p>
+      </section>
+      <section class="part" id="t102-expected-delegations">
+        <h4>Delegations I expect</h4>
+        <p class="verbatim">Boss asks Facilities for the lease and due date. Facilities then asks Accounting to check that cash covers the rent and to propose the rent payment for human approval. I don&#x27;t expect Inventory or Customer Service. The ticket should stay open until a human approves the payment.</p>
+      </section>
+      <section class="part" id="t102-expected-tools">
+        <h4>MCP tools I expect to be used</h4>
+        <p class="verbatim">get_ticket, get_lease, list_payments, get_cash_balance, propose_payment</p>
+      </section>
+    </section>
+    <section class="col actual" id="t102-actual" aria-labelledby="t102-actual-h">
+      <h3 id="t102-actual-h">Actual</h3>
+      <section class="part" id="t102-actual-first">
+        <h4>Who the Boss called first and why</h4>
+        <p>Facilities.</p><p>Why: not recorded. The audit trail stores the Boss's task text only as a length and hash, and the Boss's decision gives no reason for the order of its calls.</p><p class="run-note">Runs: 1 (7869a8484676), 41 audit entries labelled problem-9-full-run.</p>
+      </section>
+      <section class="part" id="t102-actual-delegations">
+        <h4>Delegations made</h4>
+        <ul class="actual-list"><li>1. Boss &rarr; Facilities</li><li>2. Boss &rarr; Accounting</li></ul>
+      </section>
+      <section class="part" id="t102-actual-tools">
+        <h4>MCP tools used</h4>
+        <p>get_ticket, get_lease, get_cash_balance, list_payments, list_proposals, propose_payment, resolve_ticket</p>
+      </section>
+      <section class="part" id="t102-actual-compare">
+        <h4>Compared with Expected (computed set differences)</h4>
+        <p>Tools expected but not used:</p><p>none</p>
+        <p>Tools used but not expected:</p><ul class="actual-list"><li>list_proposals</li><li>resolve_ticket</li></ul>
+        <p>Hand-offs expected but not made:</p><ul class="actual-list"><li>Facilities &rarr; Accounting</li></ul>
+        <p>Hand-offs made but not expected:</p><ul class="actual-list"><li>Boss &rarr; Accounting</li></ul>
+        <p class="run-note">Expected hand-offs as read from your Expected text: &ldquo;Boss asks Facilities&rdquo; = Boss &rarr; Facilities; &ldquo;Facilities then asks Accounting&rdquo; = Facilities &rarr; Accounting.</p>
+      </section>
+    </section>
+    </div>
+  </section>
+  <section class="panel" id="t103" role="tabpanel" aria-labelledby="tab-t103" tabindex="0">
+    <h2>Ticket 103</h2>
+    <dl class="meta" id="t103-meta">
+      <div><dt>ID</dt><dd>103</dd></div>
+      <div><dt>Type</dt><dd>price_override</dd></div>
+      <div><dt>Requester</dt><dd>Yale AI Club</dd></div>
+      <div><dt>Subject</dt><dd>Bulk hoodie discount</dd></div>
+    </dl>
+    <div class="compare">
+    <section class="col expected" id="t103-expected" aria-labelledby="t103-expected-h">
+      <h3 id="t103-expected-h">Expected</h3>
+      <section class="part" id="t103-expected-first">
+        <h4>Who the Boss calls first and why</h4>
+        <p class="verbatim">Inventory. The request is for 20 navy hoodies in size M and the shop may not have that many, so I want to know first whether the order can be filled at all before deciding on any discount.</p>
+      </section>
+      <section class="part" id="t103-expected-delegations">
+        <h4>Delegations I expect</h4>
+        <p class="verbatim">Boss asks Inventory for the stock position. Inventory then asks Accounting about the restock cost and whether the vendor is on hold, and Accounting also gives the cost and margin that set the discount floor. Boss then asks Customer Service to draft a holding reply that promises nothing that is not confirmed. I don&#x27;t expect Facilities.</p>
+      </section>
+      <section class="part" id="t103-expected-tools">
+        <h4>MCP tools I expect to be used</h4>
+        <p class="verbatim">get_ticket, check_stock, list_vendors, get_vendor_open_invoices, get_pricing, save_customer_draft</p>
+      </section>
+    </section>
+    <section class="col actual" id="t103-actual" aria-labelledby="t103-actual-h">
+      <h3 id="t103-actual-h">Actual</h3>
+      <section class="part" id="t103-actual-first">
+        <h4>Who the Boss called first and why</h4>
+        <p>Accounting.</p><p>Why: not recorded. The audit trail stores the Boss's task text only as a length and hash, and the Boss's decision gives no reason for the order of its calls.</p><p class="run-note">Runs: 1 (124ecff114e0), 48 audit entries labelled problem-9-full-run.</p>
+      </section>
+      <section class="part" id="t103-actual-delegations">
+        <h4>Delegations made</h4>
+        <ul class="actual-list"><li>1. Boss &rarr; Accounting</li><li>2. Boss &rarr; Inventory</li><li>3. Boss &rarr; Customer Service</li></ul>
+      </section>
+      <section class="part" id="t103-actual-tools">
+        <h4>MCP tools used</h4>
+        <p>get_ticket, get_pricing, check_stock, list_vendors, get_today, get_vendor_open_invoices, save_customer_draft, resolve_ticket</p>
+      </section>
+      <section class="part" id="t103-actual-compare">
+        <h4>Compared with Expected (computed set differences)</h4>
+        <p>Tools expected but not used:</p><p>none</p>
+        <p>Tools used but not expected:</p><ul class="actual-list"><li>get_today</li><li>resolve_ticket</li></ul>
+        <p>Hand-offs expected but not made:</p><ul class="actual-list"><li>Inventory &rarr; Accounting</li></ul>
+        <p>Hand-offs made but not expected:</p><ul class="actual-list"><li>Boss &rarr; Accounting</li></ul>
+        <p class="run-note">Expected hand-offs as read from your Expected text: &ldquo;Boss asks Inventory&rdquo; = Boss &rarr; Inventory; &ldquo;Inventory then asks Accounting&rdquo; = Inventory &rarr; Accounting; &ldquo;Boss then asks Customer Service&rdquo; = Boss &rarr; Customer Service.</p>
+      </section>
+    </section>
+    </div>
+  </section>
+  <section class="panel" id="cash" role="tabpanel" aria-labelledby="tab-cash" tabindex="0">
+    <h2>Cash</h2>
+    <div id="cash-content">
+      <p class="run-note">All figures from data/campus_customs_new.db (read-only), read at 2026-10-13T18:56:21Z. Starting balance read after the reset at 2026-10-13T14:57:58Z.</p>
+      <table class="ledger">
+        <thead><tr><th>Line</th><th>What happened</th><th class="num">Amount</th></tr></thead>
+        <tbody>
+          <tr><td>Start</td><td>Checking balance after the reset</td><td class="num">$3,400.00</td></tr>
+          <tr><td>Ticket 101</td><td>No cash change. The run (cd5471ed4a62) made no payment or purchase-order proposal (no propose_* call in the audit trail), so nothing could be approved or paid.</td><td class="num">$0.00</td></tr><tr><td>Ticket 102</td><td>payments row 1: rent, reference lease 1; proposal PAY-0001 proposed by accounting in run 7869a8484676 (audit trail); approved by [human approver]; paid_at 2026-08-31 (shop date), executed 2026-10-13T15:20:51Z</td><td class="num">&minus;$2,400.00</td></tr><tr><td>Ticket 103</td><td>No cash change. The run (124ecff114e0) made no payment or purchase-order proposal (no propose_* call in the audit trail), so nothing could be approved or paid.</td><td class="num">$0.00</td></tr>
+          <tr class="total"><td>End</td><td>Checking balance now (cash_accounts, as of 2026-08-31)</td><td class="num">$1,000.00</td></tr>
+        </tbody>
+      </table>
+      <p class="arith">Arithmetic: $3,400.00 &minus; $2,400.00 (sum of 1 payments row) = $1,000.00; database value = $1,000.00; equal: yes.</p>
+      <h3>Still unpaid</h3>
+      <ul><li>Invoice 501 (vendor 1, Bulldog Print Co): $840.00, due 2026-08-28, status <strong>open</strong></li></ul>
+      <p>Invoice 501 is still open and unpaid, so vendor 1 (Bulldog Print Co) stays on hold: the propose_purchase_order tool refuses any order from it. That vendor is the apparel reprinter, so no restock of the white tee in size S (ticket 101) or of navy hoodies in size M (ticket 103) can be ordered until a human approves paying invoice 501. Neither run proposed that payment.</p>
+    </div>
+  </section>
+  <section class="panel" id="reflection" role="tabpanel" aria-labelledby="tab-reflection" tabindex="0">
+    <h2>Reflection</h2>
+    <div id="reflection-content">
+      <section class="reflection-section" id="reflection-evaluation" aria-labelledby="reflection-evaluation-h">
+        <h3 id="reflection-evaluation-h">1. How I&#x27;d evaluate the agents on each ticket, and why</h3>
+        <div class="reflection-block">
+          <p>I judged each ticket on three things: did the facts match the database, did the agents follow the shop rules, and was the outcome actually good for the shop. I picked these because this team touches real-looking money and customers, so a confident wrong number or a broken rule matters more to me than how fast it ran.</p>
+        </div>
+        <div class="reflection-block">
+          <p>Ticket 101 (Bulldog tee, size S):</p>
+          <ul><li>Facts: good. The S tee really is at 0 in stock and the numbers matched the database.</li><li>Rules: clean. No money moved, no discount was offered, and the reply is a draft (DRAFT-0001) that was never sent.</li><li>Outcome: okay but incomplete. It resolved, and the team did notice the real blocker: overdue invoice 501 is holding the vendor, and it appears in the Boss&#x27;s findings, the resolution note and Inventory&#x27;s report. But nobody turned that into a payment proposal, so the S tee still can&#x27;t be restocked.</li></ul>
+        </div>
+        <div class="reflection-block">
+          <p>Ticket 102 (rent):</p>
+          <ul><li>Facts: good. Rent of $2,400 due 2026-09-02 against $3,400 in checking all matched the database.</li><li>Rules: mixed, and this is the weak spot. The money side was safe: the payment was only proposed (PAY-0001) and moved after I approved it in the dashboard, and cash never went negative. But the Boss resolved the ticket while the payment was still pending, which its own prompt forbids. Nothing in code stops that, so it&#x27;s a prompt rule that didn&#x27;t hold.</li><li>Outcome: good in the end. Rent was paid, checking went from $3,400 to $1,000 (see the Cash tab), and the lease&#x27;s next due date moved to 2026-10-02.</li></ul>
+        </div>
+        <div class="reflection-block">
+          <p>Ticket 103 (20 hoodies, discount request):</p>
+          <ul><li>Facts: good. 8 of 20 size M hoodies in stock (short by 12), list price $58, cost $22.</li><li>Rules: the biggest miss. The price floor held, because Accounting&#x27;s recommended $52.20 (10% off $58) is well above the $22 cost. But Customer Service wrote DRAFT-0002 calling $52.20 &quot;the approved bulk price&quot; when nobody approved it, and it offers 8 hoodies on a ticket the Boss declined. It was never sent, but a customer would have read a promise we hadn&#x27;t made.</li><li>Outcome: defensible, not great. Declining makes sense with 8 in stock and the restock blocked by invoice 501, but checking holds $1,000 and the invoice is $840, so a better outcome might have been to keep the ticket open and propose paying 501 first.</li></ul>
+        </div>
+      </section>
+      <section class="reflection-section" id="reflection-plan-vs-actual" aria-labelledby="reflection-plan-vs-actual-h">
+        <h3 id="reflection-plan-vs-actual-h">2. How Actual compared to my Expected plans</h3>
+        <div class="reflection-block">
+          <p>The biggest difference is that I expected specialists to pass work to each other, but the Boss centralized everything. Across all three runs no specialist ever handed work to another specialist. The Boss did all the routing, so the agent-to-agent links the team has (20 possible) went unused.</p>
+        </div>
+        <div class="reflection-block">
+          <ul><li>Ticket 101: the closest match. I expected Inventory first and then Customer Service, with no Accounting, and that is what the Boss did (Boss to Inventory, Boss to Customer Service). What I didn&#x27;t plan for was the memo mentioning an invoice approval that no agent ever proposed. The exact tools used are in the Actual section of the Ticket 101 tab.</li><li>Ticket 102: I expected the Boss to call Facilities and then Facilities to ask Accounting to propose the payment. Instead the Boss asked Facilities and Accounting itself, directly. The end result was what I wanted (PAY-0001 for $2,400, itemized on the Cash tab), but the route was flatter, and I didn&#x27;t predict the Boss would close the ticket before my approval.</li><li>Ticket 103: I expected Inventory first (can we even fill 20?) with Inventory then asking Accounting. The Boss called Accounting first, then Inventory, then Customer Service. The order was different but the same three specialists were involved, and the decision to decline leaned on the two facts I thought mattered: stock and the vendor hold. I also didn&#x27;t predict the bad DRAFT-0002.</li></ul>
+        </div>
+        <div class="reflection-block">
+          <p>What this tells me: my plans imagined a team passing the baton, while the Boss behaves like a manager who hands out every task personally. That is simpler to audit, since every hand-off starts at the Boss, but it means the specialist-to-specialist links I built are decoration so far.</p>
+        </div>
+      </section>
+      <section class="reflection-section" id="reflection-one-agent" aria-labelledby="reflection-one-agent-h">
+        <h3 id="reflection-one-agent-h">3. What would have been simpler as one agent with tools</h3>
+        <div class="reflection-block">
+          <p>Ticket 102 (rent). The job was basically three steps: read the lease (get_lease), check the checking balance (get_cash_balance) and propose the payment (propose_payment). The team spent 12 requests and 13 tool calls, about 71 seconds and about 40k input tokens, with the Boss routing to Facilities and Accounting, just to do those three things. One agent holding those three tools could have done it with fewer hand-offs and less to go wrong.</p>
+        </div>
+        <div class="reflection-block">
+          <p>What I would not collapse is the approval step. The human approval and the refusal on insufficient cash are enforced in the tools and the backend, so they stay safe whether there is one agent or five. The rule that did fail (resolving before approval) is only a prompt rule, so a single agent wouldn&#x27;t have been automatically better there either. It needs a check in code.</p>
+        </div>
+        <div class="reflection-block">
+          <p>For 101 and 103 it felt less clear-cut. They needed judgment calls (what to tell a customer, how low a price can go), and splitting those across roles at least gave me a separate record per agent in the audit trail.</p>
+        </div>
+      </section>
+      <section class="reflection-section" id="reflection-solvable" aria-labelledby="reflection-solvable-h">
+        <h3 id="reflection-solvable-h">4. Three problems the team could solve with the tools I built</h3>
+        <div class="reflection-block">
+          <ul><li>Next month&#x27;s rent. Lease 1 now comes due 2026-10-02 ($2,400 monthly). Facilities and Accounting can read it with get_lease, check cash with get_cash_balance, see whether it was already paid with list_payments, and propose it with propose_payment for a human to approve. One honest catch from the Cash tab: checking is only $1,000 after this run, so pay_approved would refuse a $2,400 payment (no negative balances). The team could spot and prepare the bill, not fund it.</li><li>A zero-stock mug. CC-MUG-CREST is at 0 in stock. Inventory would confirm with check_stock, find Elm City Gifts (mugs and small goods, 3-day lead) with list_vendors, and confirm the vendor has no open unpaid invoice with get_vendor_open_invoices. Accounting would then use propose_purchase_order, which comes back pending for a human to approve. I tested this pattern on a scratch copy of the database in Problem 5 (a 24-mug order arriving three days out), though no real ticket asked for it.</li><li>Another overdue vendor bill. Invoice 501 is exactly this: Bulldog Print Co, $840, overdue. The tools cover it end to end: get_invoice, get_vendor_open_invoices and get_cash_balance, then propose_payment, human approval and pay_approved. The funny part is that it&#x27;s the one problem in this run the team could have solved but didn&#x27;t. Checking had $1,000 (see the Cash tab), more than the $840, yet no run proposed it, and that is why the tee in 101 and the hoodie restock in 103 are still stuck.</li></ul>
+        </div>
+      </section>
+      <section class="reflection-section" id="reflection-unsolvable" aria-labelledby="reflection-unsolvable-h">
+        <h3 id="reflection-unsolvable-h">5. Three problems the team could not solve, and what I&#x27;d need</h3>
+        <div class="reflection-block">
+          <ul><li>Receiving a restock. Even a fully approved purchase order doesn&#x27;t change inventory, and nothing records a delivery, so shortages like the 8 vs 20 hoodies in 103 or the S tee at 0 in 101 would never close in the data. I&#x27;d need a purchase order status that moves from approved to ordered to received, a receive_stock tool that adds the delivered quantity to inventory only against an approved purchase order (and writes to the audit trail), a record_vendor_invoice tool so the bill that comes with the delivery lands in the invoices table, and a Receiving agent (or a new job for Inventory) that checks what arrived against what was ordered.</li><li>Vendor quotes and price comparison. The data only knows three vendors by specialty and lead time (Bulldog Print Co, Elm City Gifts and a local courier), and the only cost figures are the shop&#x27;s own unit_cost in the pricing table. For the 12-hoodie shortfall in 103, the team can&#x27;t compare vendors or know the real cost of a restock. I&#x27;d need a vendor catalog and quote table, tools like get_vendor_quote(vendor, sku, qty) and compare_quotes, and a Sourcing agent that Accounting and Inventory can call, with the margin check against the discount floor.</li><li>Returns, refunds and order history. There is no customers or orders table: the requester is just free text (like the Yale AI Club on ticket 103), and the cash model only goes out, with revenue not modelled, so a customer who says they were charged for the wrong size can&#x27;t be verified or refunded. I&#x27;d need orders and customers tables, a get_order_history tool, a propose_refund tool that goes through the same human approval as payments (and puts money back into cash), and a Returns agent that checks the order, checks stock of the replacement size and drafts the reply.</li></ul>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>
+<script>
+(function () {
+  document.documentElement.classList.add("js");
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function select(i, focus) {
+    tabs.forEach(function (t, j) {
+      var on = i === j;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function (ev) { ev.preventDefault(); select(i, false);
+      history.replaceState(null, "", "#" + t.getAttribute("aria-controls")); });
+    t.addEventListener("keydown", function (ev) {
+      var k = ev.key, n = tabs.length, next = null;
+      if (k === "ArrowRight") next = (i + 1) % n;
+      else if (k === "ArrowLeft") next = (i - 1 + n) % n;
+      else if (k === "Home") next = 0;
+      else if (k === "End") next = n - 1;
+      if (next !== null) { ev.preventDefault(); select(next, true); }
+    });
+  });
+  var start = tabs.findIndex(function (t) { return "#" + t.getAttribute("aria-controls") === location.hash; });
+  select(start < 0 ? 0 : start, false);
+})();
+</script>
+</body>
+</html>

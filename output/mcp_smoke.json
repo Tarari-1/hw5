@@ -1,0 +1,202 @@
+{
+  "server": "campus-customs",
+  "database": "data/campus_customs_new.db",
+  "tests": [
+    {
+      "ticket": 101,
+      "prompt": "Do we have any Classic Bulldog Tees in white, size S, in stock? What about other sizes?",
+      "tool": "mcp__campus-customs__check_stock",
+      "arguments": {
+        "sku": "CC-TEE-WHITE",
+        "size": "S"
+      },
+      "tool_output": {
+        "found": true,
+        "sku": "CC-TEE-WHITE",
+        "size": "S",
+        "name": "Classic Bulldog Tee",
+        "qty": 0,
+        "location": "Aisle B",
+        "all_sizes": [
+          {
+            "size": "L",
+            "qty": 3,
+            "location": "Aisle B"
+          },
+          {
+            "size": "M",
+            "qty": 5,
+            "location": "Aisle B"
+          },
+          {
+            "size": "S",
+            "qty": 0,
+            "location": "Aisle B"
+          },
+          {
+            "size": "XL",
+            "qty": 2,
+            "location": "Aisle B"
+          }
+        ]
+      },
+      "database_check": [
+        {
+          "query": "SELECT sku, size, name, qty, location FROM inventory WHERE sku = ? AND size = ?",
+          "params": [
+            "CC-TEE-WHITE",
+            "S"
+          ],
+          "rows": [
+            {
+              "sku": "CC-TEE-WHITE",
+              "size": "S",
+              "name": "Classic Bulldog Tee",
+              "qty": 0,
+              "location": "Aisle B"
+            }
+          ]
+        },
+        {
+          "query": "SELECT size, qty, location FROM inventory WHERE sku = ? ORDER BY size",
+          "params": [
+            "CC-TEE-WHITE"
+          ],
+          "rows": [
+            {
+              "size": "L",
+              "qty": 3,
+              "location": "Aisle B"
+            },
+            {
+              "size": "M",
+              "qty": 5,
+              "location": "Aisle B"
+            },
+            {
+              "size": "S",
+              "qty": 0,
+              "location": "Aisle B"
+            },
+            {
+              "size": "XL",
+              "qty": 2,
+              "location": "Aisle B"
+            }
+          ]
+        }
+      ],
+      "matches_database": true
+    },
+    {
+      "ticket": 102,
+      "prompt": "When is the Chapel Street shop rent due, and do we have enough in checking to cover it?",
+      "tool": "mcp__campus-customs__get_lease",
+      "arguments": {
+        "lease_id": 1
+      },
+      "tool_output": {
+        "found": true,
+        "id": 1,
+        "space_name": "Chapel Street shop",
+        "landlord": "Elm City Properties",
+        "monthly_rent": 2400,
+        "next_due": "2026-09-02",
+        "notes": null,
+        "today": "2026-08-31",
+        "days_until_due": 2,
+        "is_overdue": false,
+        "checking_balance": 3400,
+        "checking_as_of": "2026-08-31",
+        "checking_covers_rent": true
+      },
+      "database_check": [
+        {
+          "query": "SELECT id, space_name, landlord, monthly_rent, next_due, notes FROM leases WHERE id = ?",
+          "params": [
+            1
+          ],
+          "rows": [
+            {
+              "id": 1,
+              "space_name": "Chapel Street shop",
+              "landlord": "Elm City Properties",
+              "monthly_rent": 2400.0,
+              "next_due": "2026-09-02",
+              "notes": null
+            }
+          ]
+        },
+        {
+          "query": "SELECT date_today FROM desk",
+          "params": [],
+          "rows": [
+            {
+              "date_today": "2026-08-31"
+            }
+          ]
+        },
+        {
+          "query": "SELECT name, balance, date FROM cash_accounts WHERE name = ?",
+          "params": [
+            "checking"
+          ],
+          "rows": [
+            {
+              "name": "checking",
+              "balance": 3400.0,
+              "date": "2026-08-31"
+            }
+          ]
+        },
+        {
+          "derived_from_rows_above": {
+            "today": "2026-08-31",
+            "days_until_due": 2,
+            "is_overdue": false,
+            "checking_balance": 3400.0,
+            "checking_as_of": "2026-08-31",
+            "checking_covers_rent": true
+          }
+        }
+      ],
+      "matches_database": true
+    },
+    {
+      "ticket": 103,
+      "prompt": "What does a navy Basic Hoodie cost us, what do we list it for, and what's the margin?",
+      "tool": "mcp__campus-customs__get_pricing",
+      "arguments": {
+        "sku": "CC-HOOD-NAVY"
+      },
+      "tool_output": {
+        "found": true,
+        "sku": "CC-HOOD-NAVY",
+        "unit_cost": 22,
+        "list_price": 58,
+        "margin_pct": 62.1
+      },
+      "database_check": [
+        {
+          "query": "SELECT sku, unit_cost, list_price FROM pricing WHERE sku = ?",
+          "params": [
+            "CC-HOOD-NAVY"
+          ],
+          "rows": [
+            {
+              "sku": "CC-HOOD-NAVY",
+              "unit_cost": 22.0,
+              "list_price": 58.0
+            }
+          ]
+        },
+        {
+          "derived_from_rows_above": {
+            "margin_pct": 62.1
+          }
+        }
+      ],
+      "matches_database": true
+    }
+  ]
+}

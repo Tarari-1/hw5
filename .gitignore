@@ -1,0 +1,26 @@
+# secrets and local environment
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# build output and caches
+node_modules/
+dist/
+__pycache__/
+*.pyc
+*.tsbuildinfo
+.DS_Store
+
+# runtime stores and their lock/temp files (created by runs; never published)
+data/approvals.json
+data/drafts_board.json
+data/ticket_resolutions.json
+*.lock
+*.tmp-*
+*.reset-tmp-*
+
+# corrupt-file backups made by the audit writer and the stores
+output/audit_trail.corrupt-*.json
+data/*.corrupt-*.json
